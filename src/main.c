@@ -1,20 +1,19 @@
-#include <stdio.h>
+#include "../include/parse_tree.h"
 #include "../include/stack_str.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <err.h>
+#include <stdio.h>
 
 int main(){
-	t_stack_str* stk = init_stack_str();
-	stack_push_str(stk,"Jeune");
-	stack_push_str(stk,"Homme");
-	stack_push_str(stk,"Le");
-	stack_push_str(stk,"Masque");
-	stack_push_str(stk,"C'est sur le nez");
-	while (!stack_empty_str(stk)){
-		char tab[255];
-		stack_peek_str(stk,tab);
-		printf("%s ",tab);
-		stack_pop_str(stk);
+	FILE *flux = fopen("/home/mathis/epita/auto-archi/tree","r");
+	if (!flux){
+		errx(1,"Cant open the tree file\n");
+	}
+	char tab[255] = {0};
+	size_t step = 0;
+	while ((step = read_line(flux,tab)) > 0){
+		printf("step : %zu\n tab : %s\n",step,tab);
 	}
 	return 0;
 }
