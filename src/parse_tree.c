@@ -5,7 +5,6 @@
 #include "../include/stack_str.h"
 #include <string.h>
 #include <err.h>
-#define MAX_PATH 256
 #include <sys/stat.h>
 
 size_t read_line(FILE *flux,char *buffer){
@@ -51,7 +50,7 @@ void sum_path(char *path,char *add){
 void parse_tree(FILE *flux,char* build_path){
 	t_stack_str* stk = init_stack_str();
 	if (!stk) {
-		errx(5,"Error : Creation of stack failed.\n");
+		errx(6,"Error: Creation of stack failed.\n");
 	}
 	stack_push_str(stk,build_path);
 					
@@ -63,18 +62,21 @@ void parse_tree(FILE *flux,char* build_path){
 	current_step = read_line(flux,current_line);
 	while(!stack_empty_str(stk)){
 		if (current_step == 0) goto finish;
+		if(!strcmp("README",current_line) || !strcmp("README.md",current_line))
+			printf("README\n");
+		if(!strcmp("AUTHORS",current_line))
+			printf("AUTHORS\n");
 		next_step = read_line(flux,next_line);
 
 	
 		stack_peek_str(stk,current_path);
 		sum_path(current_path,current_line);
-		printf("current path : %s\n",current_path);
 		if (next_step <= current_step){//FILE
 			FILE *new_file = fopen(current_path,"w");
 			if (new_file){
 				fclose(new_file);
 			}
-			else errx(6,"Error creating the file: %s\n",current_path);
+			else errx(7,"Error: Creation of the file %s failed.\n",current_path);
 			if (next_step < current_step){
 				for(size_t k = 0; k < (current_step-next_step)/4;k++){
 					stack_pop_str(stk);
@@ -83,7 +85,7 @@ void parse_tree(FILE *flux,char* build_path){
 		}
 		else {//DIR
 			if (mkdir(current_path, 0777)){
-				errx(7,"Error creating the directory: %s\n",current_path);
+				errx(8,"Error: Creation the directory %s failed.\n",current_path);
 			}
 			stack_push_str(stk,current_path);
 		}
