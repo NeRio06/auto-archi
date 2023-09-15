@@ -3,10 +3,10 @@
 #include <malloc.h>
 #include "../include/stack_str.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 t_stack_str *init_stack_str(void){
 	t_stack_str* new_list;
-	
 	if ((new_list = malloc(sizeof(t_stack_str)))){
 		new_list->lenght = 0;
 		new_list->head = NULL;
@@ -23,13 +23,12 @@ void stack_peek_str(t_stack_str* stk,char *buffer){
 
 void stack_push_str(t_stack_str* stk,char *data){
 	t_node_str * new_node;
-	
 	if ((new_node = malloc(sizeof(t_node_str)))){
-		if ((new_node->data = malloc(sizeof(strlen(data))))){
-			new_node->next = stk->head;
-			stk->head = new_node;
+		if ((new_node->data = malloc(strlen(data)+ 1))){
 			strcpy(new_node->data,data);
 			stk->lenght++;
+			new_node->next = stk->head;
+			stk->head = new_node;
 		}
 	}
 }

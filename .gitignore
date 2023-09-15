@@ -1,6 +1,7 @@
 #Tests
 *test
 tree
+*test/*
 
 # Prerequisites
 *.d

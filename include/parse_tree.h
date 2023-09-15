@@ -5,4 +5,8 @@
 
 size_t read_line(FILE *flux,char* buffer);
 
+void sum_path(char *path,char *add);
+
+void parse_tree(FILE *flux,char* build_path);
+
 #endif
