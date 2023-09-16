@@ -2,7 +2,7 @@
 #define STACK_STR_H
 
 #include <stddef.h>
-
+#define MAX_PATH 256
 typedef struct s_node_str{
         char* data;
         struct s_node_str *next;

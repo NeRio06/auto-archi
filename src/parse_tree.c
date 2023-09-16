@@ -39,7 +39,7 @@ size_t read_line(FILE *flux,char *buffer){
 	return sp_count;
 }
 
-void sum_path(char *path,char *add){
+static void sum_path(char *path,char *add){
 	size_t i = 0;
 	for(;path[i];i++);
 	path[i++] = '/';
@@ -47,10 +47,42 @@ void sum_path(char *path,char *add){
 	path[i] = 0;
 }
 
-void parse_tree(FILE *flux,char* build_path){
+static void write_authors(char *path,char *login){
+	FILE *flux = fopen(path,"w");
+	if (!flux){
+		errx(1,"Error: Cannot open the file %s\n",path);
+	}
+	int first = 1;
+	size_t i = 0;
+	for(;login[i] && login[i] != '.';i++){
+		if (first){
+			fputc(login[i] - 'a' + 'A',flux);
+			first = 0;
+		}
+		else fputc(login[i],flux);
+	}
+	fputc('\n',flux);
+	i++;
+	for(first = 1;login[i];i++){
+		if (first){
+			fputc(login[i] - 'a' + 'A',flux);
+			first = 0;
+		}
+		else fputc(login[i],flux);
+	}
+	fputc('\n',flux);
+	fputs(login,flux);
+	fputc('\n',flux);
+	fputs(login,flux);
+	fputs("@epita.fr",flux);
+	fputc('\n',flux);
+	fclose(flux);
+}
+
+void parse_tree(FILE *flux,char* build_path,char *login){
 	t_stack_str* stk = init_stack_str();
 	if (!stk) {
-		errx(6,"Error: Creation of stack failed.\n");
+		errx(1,"Error: Creation of stack failed.\n");
 	}
 	stack_push_str(stk,build_path);
 					
@@ -62,21 +94,23 @@ void parse_tree(FILE *flux,char* build_path){
 	current_step = read_line(flux,current_line);
 	while(!stack_empty_str(stk)){
 		if (current_step == 0) goto finish;
-		if(!strcmp("README",current_line) || !strcmp("README.md",current_line))
-			printf("README\n");
-		if(!strcmp("AUTHORS",current_line))
-			printf("AUTHORS\n");
 		next_step = read_line(flux,next_line);
 
 	
 		stack_peek_str(stk,current_path);
 		sum_path(current_path,current_line);
+
+
 		if (next_step <= current_step){//FILE
 			FILE *new_file = fopen(current_path,"w");
 			if (new_file){
 				fclose(new_file);
 			}
-			else errx(7,"Error: Creation of the file %s failed.\n",current_path);
+			else errx(1,"Error: Creation of the file %s failed.\n",current_path);
+			
+			if(login && !strcmp("AUTHORS",current_line))
+				write_authors(current_path,login);
+
 			if (next_step < current_step){
 				for(size_t k = 0; k < (current_step-next_step)/4;k++){
 					stack_pop_str(stk);
@@ -85,7 +119,7 @@ void parse_tree(FILE *flux,char* build_path){
 		}
 		else {//DIR
 			if (mkdir(current_path, 0777)){
-				errx(8,"Error: Creation the directory %s failed.\n",current_path);
+				errx(1,"Error: Creation the directory %s failed.\n",current_path);
 			}
 			stack_push_str(stk,current_path);
 		}
