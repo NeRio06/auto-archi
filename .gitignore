@@ -3,6 +3,9 @@
 tree
 *test/*
 
+#vim
+*.swp
+
 # Prerequisites
 *.d
 
