@@ -35,7 +35,7 @@ If you are a student from epita and you want to install auto-archi and your sess
   make epita-install
 ```
 
-Else, you can install the program using the make install command. By default, this will place the executable in /usr/local/bin:
+Else, you can install the program using the make install command. By default, this will place the executable in /usr/local/bin. Depending on your system configuration, you may need to use sudo with the command for elevated privileges.
 
 ```bash
   make install
@@ -44,6 +44,19 @@ If you wish to specify a custom installation path, use the INSTALL_PATH variable
 
 ```bash
   make install INSTALL_PATH=/custom/path
+```
+
+## Uninstallation
+
+To desinstall auto-archi, first delete the executable with the make uninstall command.  Depending on your system configuration, you may need to use `sudo` with the command for elevated privileges.
+```bash
+  make uninstall
+```
+
+And then you can remove the repo by first, navigate to his parent directory, and delete it.
+```bash
+  cd ../
+  rm -rf auto-archi
 ```
 ## Usage
 This C program is designed to be executed from the terminal with the following format:
@@ -57,7 +70,7 @@ The arguments can be interchanged, but there are some rules to follow:
 - `tree-path` is mandatory and represents the path to a file that contain the tree command output.
 - `-a login` is an optional flag that must be followed by a login in the format 'firstname.name'. If used it fill the AUTHORS file if the `tree-file` contains it.
 - `build-path` is also optional. By default the program build in the current working directory. The build directory must do not contains the same file and directory that the `tree-path` file contains.
-- `-r` is an optional flag. If used it removes the tree-file after the execution.
+- `-r` is an optional flag. If used it deletes the tree-file after the execution.
 
 ## Examples
 
@@ -89,7 +102,7 @@ In this exemple :
  - The program will build the archi in the directory from the relative path `../suuuwi/`
  - The program will build the archi by parsing the file that contains the tree command output from the absolute path `/shrek/tree`
  - The program will fill the `AUTHORS` file using the login `zinedine.zidane`
- - The program will remove `/shrek/tree` file
+ - The program will delete `/shrek/tree` file
 
  The content of the `AUTHORS` file after the execution:
  ```
