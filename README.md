@@ -3,6 +3,10 @@
 
 Program that build the archi of your project by parsing his tree command output.
 
+What is the purpose of this project?
+
+As an IT student, we had practical coding sessions every week, during which the subject provided us with the desired repository architecture. I developed this program to expedite the setup of my repository.
+
 ## Prerequisites
 
 Before you proceed with the installation, ensure that you have the GCC compiler installed on your system. You can check if it's installed by running the following command:
