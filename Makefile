@@ -13,7 +13,7 @@ $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS)
 
 install : all 
-	sudo cp $(EXEC) $(INSTALL_PATH)
+	cp $(EXEC) $(INSTALL_PATH)
 
 clean :
 	rm -f $(OBJS) $(EXEC)
