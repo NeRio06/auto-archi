@@ -14,6 +14,11 @@ $(EXEC): $(OBJS)
 
 install : all 
 	cp $(EXEC) $(INSTALL_PATH)
+	echo '$(INSTALL_PATH)' > .install_path
+
+uninstall :
+	rm $(shell cat .install_path)/$(EXEC)
+	
 
 clean :
 	rm -f $(OBJS) $(EXEC)
