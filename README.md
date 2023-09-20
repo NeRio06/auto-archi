@@ -29,7 +29,7 @@ To install auto-archi, first clone the repository, and then navigate to the dire
   cd auto-archi
 ```
 
-If you are a student from epita and you want to install auto-archi and your session, run the command :
+If you are a student from epita and you want to install auto-archi and your session, run the following command. This will paste the executable in ~afs/.cons and set an alias `archi=~/afs/.confs/archi`.
 
 ```bash
   make epita-install
