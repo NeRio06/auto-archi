@@ -20,5 +20,11 @@ uninstall :
 	rm $(shell cat .install_path)/$(EXEC)
 	
 
+epita-install : all
+	cp $(EXEC) ~/afs/.confs/
+	echo '~/afs/.confs/' > .install_path
+	alias archi=~/afs/.confs/archi
+	echo 'alias archi=~/afs/.confs/archi' >> ~/afs/.confs/install.sh
+
 clean :
 	rm -f $(OBJS) $(EXEC)
